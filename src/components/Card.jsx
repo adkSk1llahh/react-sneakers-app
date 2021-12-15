@@ -1,8 +1,8 @@
 import {React, useState} from 'react'
 
-function Card({onFavor, onPlus, name, imageUrl,price}) {
+function Card({onFavor, onPlus, name, imageUrl,price, favorited=false}) {
     const [isAdd, setIsAdd] = useState(false);
-    const [isFavor, setIsFavor] = useState(false);
+    const [isFavor, setIsFavor] = useState(favorited);
 
     const onClickPlus = () =>{
         setIsAdd(!isAdd)

@@ -1,8 +1,14 @@
 import {React, useState, useEffect} from 'react'
 import Drawer from './components/Drawer.jsx';
 import Header from './components/Header.jsx';
-import Card from './components/Card.jsx';
 import axios from 'axios';
+import Home from './components/Home.jsx';
+import Favorites from './components/Favorites.jsx';
+import {
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
   
@@ -61,33 +67,26 @@ function App() {
       
       <Header onCLickCart = {() =>setOnCart(true)} />
 
-
       <div className="content p-40">
-        <div className="d-flex align-center justify-between mb-40">
-          <h1>{searchValue ? `Поиск по запросу "${searchValue}"` : "Все кроссовки"}</h1>
-          <div className="search-block d-flex">
-            <img src="/img/search.svg" alt="Search" />
-            <input placeholder="Поиск..." onChange={onChangeSearchInput} value={searchValue}/>
-            {searchValue && <img className="cu-p" onClick={() => setSearchValue("")} src="/img/btn-remove.svg" alt="Remove" />}
-          </div>
-        </div>
+        <Routes>
+          <Route path="/" element={
+            <Home 
+            items={items} 
+            searchValue={searchValue} 
+            setSearchValue={setSearchValue}
+            onChangeSearchInput={onChangeSearchInput}
+            onAddToFavorite={onAddToFavorite}
+            onAddToCart={onAddToCart}
+            />
+            } exact/>
 
-        <div className="d-flex card__wrapper">
-          {
-            items
-            .filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase()))
-            .map((item, index)=>
-              <Card 
-              key={index}
-              name={item.name} 
-              price={item.price} 
-              imageUrl={item.imageUrl} 
-              onFavor={(obj) => onAddToFavorite(obj)}
-              onPlus={(obj) => onAddToCart(obj)}
-              />)
-          }
-
-        </div>
+          <Route path="/favorites" element={
+          <Favorites 
+            items={favorites}
+            onAddToFavorite={onAddToFavorite}
+          />}/>
+        </Routes>
+    
       </div>
     </div>
   );
