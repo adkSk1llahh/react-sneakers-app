@@ -1,25 +1,24 @@
-import React from 'react';
-import Card from './Card.jsx';
-const Favorites = ({items, onAddToFavorite}) => {
-    return (
-        <div>
-          <div className="d-flex card__wrapper">
-            {
-              items
-              .map((item, index)=>
-                <Card 
-                key={index}
-                name={item.name} 
-                price={item.price} 
-                imageUrl={item.imageUrl} 
-                favorited={true}
-                onFavor={onAddToFavorite}
-                />)
-            }
+import { React, useContext } from "react";
+import AppContext from "./Context.jsx";
+import Card from "./Card.jsx";
 
-          </div>
-        </div>
-    );
-};
+function Favorites() {
+  const { favorites, onAddToFavorite } = useContext(AppContext);
+
+  return (
+    <div>
+      <div className="d-flex card__wrapper">
+        {favorites.map((item, index) => (
+          <Card
+            key={index}
+            favorited={true}
+            onFavor={onAddToFavorite}
+            {...item}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default Favorites;
